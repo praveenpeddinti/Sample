@@ -1,0 +1,107 @@
+<html>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="test.js"></script>
+
+ <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+<script>
+
+/* Formatting function for row details - modify as you need */
+function format ( d ) {
+   return ''+
+        '<tr>'+
+            '<td>&nbsp;&nbsp;</td>'+
+            '<td>'+d.first_name+'</td>'+
+            '<td>'+d.last_name+'</td>'+
+             '<td>'+d.last_name+'</td>'+
+              '<td>'+d.last_name+'</td>'+
+        '</tr>'+
+    '';
+}
+ 
+$(document).ready(function() {
+   var dt  = $('#example').DataTable( {
+        "ajax": "object.txt",
+          "processing": true,
+         "serverSide": true,
+    "columns": [
+            {
+                "class":          "details-control",
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ""
+            },
+            { "data": "first_name" },
+            { "data": "last_name" },
+            { "data": "position" },
+            { "data": "office" }
+    ],
+        "order": [[1, 'asc']]
+    } );
+     
+ var detailRows = [];
+ 
+    $('#example tbody').on( 'click', 'tr td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = dt.row( tr );
+        var idx = $.inArray( tr.attr('id'), detailRows );
+ 
+        if ( row.child.isShown() ) {
+            tr.removeClass( 'details' );
+            row.child.hide();
+ 
+            // Remove from the 'open' array
+            detailRows.splice( idx, 1 );
+        }
+        else {
+            tr.addClass( 'details' );
+            row.child( format( row.data() ) ).show();
+ 
+            // Add to the 'open' array
+            if ( idx === -1 ) {
+                detailRows.push( tr.attr('id') );
+            }
+        }
+    } );
+ 
+    // On each draw, loop over the `detailRows` array and show any child rows
+    dt.on( 'draw', function () {
+        $.each( detailRows, function ( i, id ) {
+            $('#'+id+' td.details-control').trigger( 'click' );
+        } );
+    } );
+} );
+
+
+</script>
+<style>
+td.details-control {
+    background: url('../resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../resources/details_close.png') no-repeat center center;
+}
+.abcdef{ display: none}
+</style>
+
+<table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Position</th>
+                <th>Office</th>
+            </tr>
+        </thead>
+<!--        <tfoot>
+            <tr>
+                <th></th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Position</th>
+                <th>Office</th>
+            </tr>
+        </tfoot>-->
+    </table>
+</html>

@@ -1,0 +1,30 @@
+{
+  "draw": 1,
+  "recordsTotal": 1,
+  "recordsFiltered": 1,
+  "data": [
+    {
+      "DT_RowId": 100,
+      "Id": 100,
+      "title": "Story1",
+      "assignedto": "",
+      "priority": 3,
+      "workflow":1,
+      "bucket": 1,
+      "hide": false,
+      "childClass": "child_"
+    },
+ {
+      "DT_RowId": 100,
+      "Id": 1,
+      "title": "test testtesttesttest",
+      "assignedto": "",
+      "priority": 3,
+      "workflow": 1,
+      "bucket": 1,
+      "hide": false,
+      "childClass": "child_"
+    }
+     
+  ]
+}
